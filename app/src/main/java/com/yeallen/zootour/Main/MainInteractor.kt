@@ -46,13 +46,9 @@ class MainInteractor : HttpDownloadTask.HttpDownloadResponse {
         Log.d("TAG", "result?.second?"+(result?.second?.indexOf("Error") != -1))
         if (result?.first == "1") {
             if (result?.second?.indexOf("Error") != -1) {
-                //Log.d("TAG", )
                 listener.onError()
             } else {
                 resultList = getResultZone(result?.second)!!;
-                Log.d("test", "1." + resultList?.getResultsZone()?.getCount())
-                Log.d("test", "1." + resultList?.getResultsZone()?.getZoneList()?.size)
-                //Log.d("test", "2."+resultList?.getZoneList()?.size)
 
                 downloadDataPlant(this.context);
             }
@@ -61,10 +57,7 @@ class MainInteractor : HttpDownloadTask.HttpDownloadResponse {
                 listener.onError()
             } else {
                 var resultPlantList: ResultPlant? = getResultPlant(result?.second);
-                Log.d("test", "1." + resultPlantList?.getResultsPlant()?.getCount())
-                Log.d("test", "1." + resultPlantList?.getResultsPlant()?.getPlantList()?.size)
 
-                Log.d("TAG", "F_Name_Ch?"+(result?.second?.indexOf("F_Name_Ch") != -1))
                 if (resultList != null && resultPlantList != null) {
                     resultPlantList?.getResultsPlant()?.getPlantList()?.forEach {
                         Log.d("test", it?.getNameCh().toString());

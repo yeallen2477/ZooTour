@@ -13,7 +13,7 @@ class Plant {
     private val mPic01URL: String = ""
 
     @SerializedName(value = "F_Name_Ch")
-    private val mNameCh: String = "TEST"
+    private val mNameCh: String = "None"
 
     @SerializedName(value = "F_AlsoKnown")
     private val mAlsoKnown: String = ""

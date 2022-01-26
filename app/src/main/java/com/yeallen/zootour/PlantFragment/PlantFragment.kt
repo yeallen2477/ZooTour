@@ -27,8 +27,6 @@ class PlantFragment(var plantView: PlantView?, var plant : Plant?) : Fragment() 
     private lateinit var binding: FragmentLevel2Binding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //val view = LayoutInflater.from(context).inflate(R.layout.activity_main, container, false)
-        //v.text_view.text = "Fragment $index"
         binding = FragmentLevel2Binding.inflate(inflater)
         val rootView: View = binding!!.getRoot()
 

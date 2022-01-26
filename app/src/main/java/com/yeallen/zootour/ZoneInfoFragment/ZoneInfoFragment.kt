@@ -25,8 +25,6 @@ class ZoneInfoFragment(var zoneInfoView: ZoneInfoView?, var zoneInfo : ZoneInfo?
     private lateinit var binding: FragmentLevel1Binding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //val view = LayoutInflater.from(context).inflate(R.layout.activity_main, container, false)
-        //v.text_view.text = "Fragment $index"
         binding = FragmentLevel1Binding.inflate(inflater)
         val rootView: View = binding!!.getRoot()
 
@@ -38,12 +36,6 @@ class ZoneInfoFragment(var zoneInfoView: ZoneInfoView?, var zoneInfo : ZoneInfo?
 
     private fun initLayout() {
         var zone = zoneInfo?.getZone()
-        /*Picasso.get()
-            .load(zone?.getPicURL())
-            .placeholder(R.drawable.ic_launcher_background)
-            .resize(100, 100)
-            .asBitmap().fitCenter()
-            .into(binding!!.ivPic)*/
         activity?.let { Glide.with(it).load(zone?.getPicURL()).placeholder(R.drawable.loading).centerCrop().into(binding!!.ivPic) }
         binding.tvInfo.text = zone?.getInfo()
         binding.tvSubItem.text = zone?.getMemo()
@@ -52,7 +44,6 @@ class ZoneInfoFragment(var zoneInfoView: ZoneInfoView?, var zoneInfo : ZoneInfo?
         binding.tvSubItem3.movementMethod = LinkMovementMethod.getInstance()
         binding.tvSubItem3.text = Html.fromHtml("<a href=\'"+ zone?.getURL() +"\'>在網頁開啟</a>")
 
-        //lvDate.setAdapter(getTimeListAdapter());
         binding.lvMain.setAdapter(getCountryListAdapter())
         binding.lvMain.setOnItemClickListener { parent, view, position, id ->
             zoneInfo?.getPlantList()?.get(position)?.let { zoneInfoView?.selectPlant(it) }
@@ -71,28 +62,15 @@ class ZoneInfoFragment(var zoneInfoView: ZoneInfoView?, var zoneInfo : ZoneInfo?
                 Log.d("TAG", ""+value)
                 var url = value?.replace("\"", "")
                 if (url != null && view != null) {
-                    //activity?.let { Glide.with(it).load(url).into(view) }
-                    activity?.let {
-                        Picasso.get()
-                        .load(url)
-                        .placeholder(R.drawable.loading)
-                        .into(view)
-                    }
+                    activity?.let { Glide.with(it).load(url).placeholder(R.drawable.loading).into(view) }
                 };
             }
         }
     }
 
-    //lateinit var map: MutableMap<String, String>
     private fun getZoneMapList(): ArrayList<Map<String, String>> {
         val platformSet: MutableSet<String> = HashSet()
-        //if (null != zoneList) for (zone in zoneList) {
-            //Log.d("TESTA", "??? "+site.getCounty());
-            //platformSet.add(zone.getPicURL())
-        //}
-        Log.d("TESTA", "!!! " + platformSet.size)
         val timeList: ArrayList<Map<String, String>> = ArrayList()
-        //map = HashMap()
         var map:HashMap<String, String>
         zoneInfo?.getPlantList()?.forEach { plant ->
             map = HashMap<String, String>()

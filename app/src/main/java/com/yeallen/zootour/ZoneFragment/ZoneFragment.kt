@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SimpleAdapter
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import com.yeallen.zootour.R
 import com.yeallen.zootour.dataFormat.Plant
@@ -28,8 +29,6 @@ class ZoneFragment(var zoneView: ZoneView?, val zoneList: ResultZone, val plantL
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //val view = LayoutInflater.from(context).inflate(R.layout.activity_main, container, false)
-        //v.text_view.text = "Fragment $index"
         binding = FragmentMainBinding.inflate(inflater)
         val rootView: View = binding!!.getRoot()
 
@@ -40,8 +39,6 @@ class ZoneFragment(var zoneView: ZoneView?, val zoneList: ResultZone, val plantL
     }
 
     private fun initLayout() {
-
-        //lvDate.setAdapter(getTimeListAdapter());
         binding.lvMain.setAdapter(getCountryListAdapter())
         binding.lvMain.setOnItemClickListener { parent, view, position, id ->
             zoneView?.selectZone(getZooInfo(position))
@@ -77,37 +74,17 @@ class ZoneFragment(var zoneView: ZoneView?, val zoneList: ResultZone, val plantL
             intArrayOf(R.id.ivIcon, R.id.tvTitle, R.id.tvInfo, R.id.ivInfo2)
         ) {
             override fun setViewImage(view: ImageView?, value: String?) {
-
-                // here you put code to take your "value" string
-                // and get your image, for example using Picasso
-                // or Glide, and putting it in the "v" ImageView.
-                Log.d("TAG", "" + value)
                 var url = value?.replace("\"", "")
                 if (view != null) {
-                    //activity?.let { Glide.with(it).load(url).into(view) }
-                    activity?.let {
-                        Picasso.get()
-                            .load(url)
-                            .placeholder(R.drawable.loading)
-                            .resize(100, 100)
-                            .centerCrop()
-                            .into(view)
-                    }
+                    activity?.let { Glide.with(it).load(url).placeholder(R.drawable.loading).into(view) }
                 };
             }
         }
     }
 
-    //lateinit var map: MutableMap<String, String>
     private fun getZoneMapList(): ArrayList<Map<String, String>> {
         val platformSet: MutableSet<String> = HashSet()
-        //if (null != zoneList) for (zone in zoneList) {
-        //Log.d("TESTA", "??? "+site.getCounty());
-        //platformSet.add(zone.getPicURL())
-        //}
-        Log.d("TESTA", "!!! " + platformSet.size)
         val timeList: ArrayList<Map<String, String>> = ArrayList()
-        //map = HashMap()
         var map: HashMap<String, String>
         zoneList.getResultsZone()?.getZoneList()?.forEach { zone ->
             map = HashMap<String, String>()

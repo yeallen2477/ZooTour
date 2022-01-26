@@ -40,21 +40,18 @@ class MainActivity : AppCompatActivity() , MainView, ZoneView, ZoneInfoView, Pla
                 getBack()
             }
         }
-
-        /*Picasso.get()
-            .load("http://www.zoo.gov.tw/iTAP/05_Exhibit/06_AfricanAnimal.jpg")
-            .placeholder(R.drawable.ic_launcher_background)
-            .fit()
-            .into(binding!!.tvTitle)*/
-        //Glide.with(this).load("https://www.popdaily.com.tw/shaper/u/202008/7d35ec74-dfda-40b1-820a-8cf946c752aa.jpg?resize-w=1100&resize-h=572").into(binding!!.tvTitle)
     }
 
+
+    var handler : Handler = Handler()
     override fun onError() {
         Toast.makeText(this, "下載資料失敗,稍後自動重試.", Toast.LENGTH_SHORT).show()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            presenter.downloadData(this@MainActivity)
-        }, 5000)
+        handler.postDelayed(retryRunnable, 5000)
+    }
+
+    private val retryRunnable = Runnable {
+        presenter.downloadData(this@MainActivity)
     }
 
     private lateinit var zoneFragment:ZoneFragment
@@ -84,7 +81,6 @@ class MainActivity : AppCompatActivity() , MainView, ZoneView, ZoneInfoView, Pla
 
     @SuppressLint("NewApi")
     override fun selectZone(zoneInfo : ZoneInfo) {
-        //TODO("Not yet implemented")
         binding?.btnGet?.background = getDrawable(R.drawable.arrow_left)
         binding?.tvMainTitle?.text = zoneInfo.getZone().getName()
         zoneInfoTitle = zoneInfo.getZone().getName()
@@ -142,5 +138,11 @@ class MainActivity : AppCompatActivity() , MainView, ZoneView, ZoneInfoView, Pla
         } else {
             Toast.makeText(this, "請確認您的網路連線", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        handler.removeCallbacks(retryRunnable)
     }
 }
